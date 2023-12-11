@@ -6,9 +6,12 @@ Install locally
 
 * Clone this repo ``git clone https://github.com/TYPO3-Documentation/t3docs-search-indexer.git``
 
-* Enter the `t3docs-search-indexer`` folder and run ``ddev start``
+* Enter the ``t3docs-search-indexer``
 
-* Run ``ddev exec composer install`` to install all dependencies.
+* Put rendered documentation inside the ``_docs`` folder. You should have a structure like ``_docs/docs.typo3.org/Web``.
+  If you are using some IDE which indexes all files from the project folder, you should exclude the ``_docs`` folder from indexing.
+
+* Run ``ddev start`` while been in the ``t3docs-search-indexer`` folder
 
 * Run ``ddev exec composer global require t3g/elasticorn:^7.0`` to install Elasticorn
 
@@ -17,12 +20,8 @@ Install locally
   ``ddev exec  ~/.composer/vendor/bin/elasticorn.php index:init -c config/Elasticorn``
 
 * If necessary adapt ``DOCS_ROOT_PATH`` in your ``.env`` file if needed (see .env.dist for examples).
-  DDEV environment has ``DOCS_ROOT_PATH=../docs_server/docs.typo3.org/Web`` set up by default, so usually
+  DDEV environment has ``DOCS_ROOT_PATH=../-docs/docs.typo3.org/Web`` set up by default, so usually
   you don't need to change it if you followed the folder structure.
-
-* Create ``docs_server`` folder (on the same level where ``t3docs-search-indexer`` folder is)
-  and put rendered documentation inside. This folder will be mounted inside DDEV under ``/var/www/docs_server``.
-  You should have a structure like ``docs_server/docs.typo3.org/Web``
 
 * Index documents as described below in "Usage" section
 
@@ -80,7 +79,7 @@ Index single manual
    e.g. ``ddev exec ./bin/console docsearch:import c/typo3/cms-felogin/12.4``
    to import EXT:felogin documentation for v12
 
-* Open `https://t3docs-search-indexer.ddev.site:9201/docsearch_english_a/_search?q=*:*` to see indexed
+* Open `https://t3docs-search-indexer.ddev.site:9200/docsearch_english_a/_search?q=*:*` to see indexed
   documents.
 
 Removing index to start fresh
@@ -88,6 +87,10 @@ Removing index to start fresh
 
 If you want to start with fresh Elasticsearch index locally, you can use chrome extensions
 like `Elasticvue` to clear/drop Elasticsearch index if necessary.
+
+As a uri you can simply enter ``https://t3docs-search-indexer.ddev.site:9200`` or ``http://localhost:XXXX`` with any of the
+host ports as listed by ``ddev describe``.
+
 
 Indexing Core changelog
 ^^^^^^^^^^^^^^^^^^^^^^^
